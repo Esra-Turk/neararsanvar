@@ -23,7 +23,7 @@
     <section class="container">
       <div class="form-section">
         <h4 class="brand-text">Ne Ararsan Var</h4>
-        <form action="login" class="form">
+        <form action="Login" class="form" method="get">
           <input
             class="form-input"
             name="email"
