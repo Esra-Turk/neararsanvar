@@ -23,16 +23,16 @@
     <section class="container">
       <div class="form-section">
         <h4 class="brand-text">Ne Ararsan Var</h4>
-        <form action="register" class="form">
+        <form action="register" class="form" method = "post">
           <input
             class="form-input"
-            name="firstName"
+            name="name"
             type="text"
             placeholder="First Name"
           />
           <input
             class="form-input"
-            name="lastName"
+            name="surname"
             type="text"
             placeholder="Last Name"
           />
