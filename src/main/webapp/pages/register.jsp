@@ -53,7 +53,7 @@
           </button>
           <p class="form-description">You have an account?</p>
           <p class="form-description">
-            <a href="login.html" class="form-switch-mode-btn" type="button"
+            <a href="login.jsp" class="form-switch-mode-btn" type="button"
               >Login
             </a>
             here
