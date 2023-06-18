@@ -39,7 +39,7 @@
           <button class="form-submit-btn" type="submit">Login</button>
           <p class="form-description">Don't have an account?</p>
           <p class="form-description">
-            <a href="register.html" class="form-switch-mode-btn" type="button"
+            <a href="register.jsp" class="form-switch-mode-btn" type="button"
               >Sign up
             </a>
             here
