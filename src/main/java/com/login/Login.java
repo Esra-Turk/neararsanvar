@@ -20,11 +20,9 @@ public class Login extends HttpServlet {
 	
 	public Login() {
 		super();
-		System.out.print("dsfsdfdsfsdfsf");
 		this.dao = new Logindao();
 		
 	}
-	
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = request.getParameter("email");
