@@ -33,7 +33,7 @@ public class User implements Serializable{
     	super();
     }
     
-    public String getCartDetail() {
+    public List<HashMap> getCartDetail() {
     	ArrayList<HashMap> list = new ArrayList<>();
     	
     	for(Cart c: cart) {
@@ -44,7 +44,7 @@ public class User implements Serializable{
     		
     	}
     	
-    	return list.toString();
+    	return list;
     }
     
     

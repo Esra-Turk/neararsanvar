@@ -62,7 +62,7 @@ public class CartDAO {
 			while (rs.next()) {
 				String cardId = rs.getString("cartID");
 				int productId = rs.getInt("productID");
-				int itemAmount = rs.getInt("buyAmount");
+				int itemAmount = rs.getInt("itemAmount");
 				cartProducts.add(new Cart(cardId, productId, itemAmount));
 			}
 		} catch (SQLException e) {
