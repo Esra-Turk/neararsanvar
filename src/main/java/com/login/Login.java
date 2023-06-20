@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.login.dao.*;
+import com.register.model.User;
 
 @WebServlet("/pages/Login")
 public class Login extends HttpServlet {
@@ -22,6 +23,7 @@ public class Login extends HttpServlet {
 		super();
 		this.dao = new Logindao();
 		
+		
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -31,8 +33,10 @@ public class Login extends HttpServlet {
 
 		if(pass != null) {
 				if(dao.check(email, pass)) {
+					
 					HttpSession session = request.getSession();
-					session.setAttribute("email", email);
+					User user = dao.getUserByEmail(email);
+					session.setAttribute("user", user);
 					response.sendRedirect("/neararsanvar/index.jsp");
 					
 				}
