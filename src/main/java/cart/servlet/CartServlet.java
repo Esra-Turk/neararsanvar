@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import cart.dao.CartDAO;
 import cart.model.Cart;
 
-@WebServlet("/")
+@WebServlet("/cart")
 public class CartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private CartDAO cartDAO;

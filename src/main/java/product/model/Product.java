@@ -1,12 +1,15 @@
 package product.model;
 
+import category.model.Category;
+import category.dao.*;
+
 public class Product {
 	private int id;
 	private String productName;
 	private String productPhoto;
 	private double productPrice;
 	private int stockAmount;
-	private int categoryId;
+	private Category category;
 
 	public Product(int id, String productName, String productPhoto, double productPrice, int stockAmount,
 			int categoryId) {
@@ -16,7 +19,7 @@ public class Product {
 		this.productPhoto = productPhoto;
 		this.productPrice = productPrice;
 		this.stockAmount = stockAmount;
-		this.categoryId = categoryId;
+		this.category = new CategoryDAO().getCategoryByID(categoryId);
 	}
 
 	// this constructor is used for inserting new product
@@ -26,7 +29,7 @@ public class Product {
 		this.productPhoto = productPhoto;
 		this.productPrice = productPrice;
 		this.stockAmount = stockAmount;
-		this.categoryId = categoryId;
+		this.category = new CategoryDAO().getCategoryByID(categoryId);
 	}
 
 	// this constructor is used for the update method
@@ -80,11 +83,19 @@ public class Product {
 	}
 
 	public int getCategoryId() {
-		return categoryId;
+		return this.category.getId();
 	}
 
 	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
+		this.category.setId(categoryId);
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 }

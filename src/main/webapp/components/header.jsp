@@ -31,7 +31,7 @@ pageEncoding="UTF-8"%>
         <div class="menu-desktop">
           <ul class="main-menu">
             <li>
-              <a href="pages/products.jsp">Ürünler</a>
+              <a href="<%= request.getContextPath()%>/pages/products">Ürünler</a>
             </li>
           </ul>
         </div>
@@ -102,7 +102,7 @@ pageEncoding="UTF-8"%>
 
     <ul class="main-menu-m">
       <li>
-        <a href="/neararsanvar/products.jsp">Ürünler</a>
+        <a href="<%= request.getContextPath()%>/pages/products">Ürünler</a>
       </li>
     </ul>
   </div>

@@ -17,7 +17,7 @@ import category.model.Category;
 
 
 
-@WebServlet("/")
+@WebServlet("/category")
 public class CategoryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private CategoryDAO categoryDAO;

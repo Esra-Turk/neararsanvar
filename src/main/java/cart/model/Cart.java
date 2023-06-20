@@ -1,20 +1,23 @@
 package cart.model;
 
+import product.model.Product;
+import product.dao.*;
+
 public class Cart {
 	private String id;
-	private int productId;
+	private Product product;
 	private int itemAmount;
 
 	public Cart(String id, int productId, int itemAmount) {
 		super();
 		this.id = id;
-		this.productId = productId;
+		this.product = new ProductDAO().getProductByID(productId);
 		this.itemAmount = itemAmount;
 	}
 
 	public Cart(int productId, int itemAmount) {
 		super();
-		this.productId = productId;
+		this.product = new ProductDAO().getProductByID(productId);
 		this.itemAmount = itemAmount;
 	}
 
@@ -27,11 +30,20 @@ public class Cart {
 	}
 
 	public int getProductId() {
-		return productId;
+		return this.product.getId();
 	}
 
 	public void setProductId(int productId) {
-		this.productId = productId;
+		this.product.setId(productId);
+	}
+	
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
 	public int getItemAmount() {

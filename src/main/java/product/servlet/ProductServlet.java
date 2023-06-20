@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import product.dao.ProductDAO;
 import product.model.Product;
 
-@WebServlet("/")
+@WebServlet("/product")
 public class ProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ProductDAO productDAO;
