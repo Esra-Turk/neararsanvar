@@ -42,7 +42,7 @@ pageEncoding="UTF-8"%>
             class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
             data-notify="2"
           >
-            <a href="/neararsanvar/pages/shopping-cart.jsp">
+            <a href="<%= request.getContextPath()%>/pages/CartsServlet">
             	<i class="zmdi zmdi-shopping-cart" style="color: black"></i>
             </a>
           </div>

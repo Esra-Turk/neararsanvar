@@ -20,6 +20,13 @@ public class Cart {
 		this.product = new ProductDAO().getProductByID(productId);
 		this.itemAmount = itemAmount;
 	}
+	
+	
+	
+	public double calculateProductTotal() {
+		return this.product.getProductPrice() * this.itemAmount;
+	}
+	
 
 	public String getId() {
 		return id;

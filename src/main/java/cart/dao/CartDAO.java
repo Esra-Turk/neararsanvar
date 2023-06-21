@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import cart.model.Cart;
 
@@ -86,6 +87,28 @@ public class CartDAO {
 			statement.setString(2, product.getId());
 			statement.setInt(3, product.getProductId());
 		}
+	}
+    public List<HashMap> getCartDetail(String cartID) {
+    	ArrayList<HashMap> list = new ArrayList<>();
+    	
+    	for(Cart c: this.getCart(cartID)) {
+    		HashMap<String, Integer> map = new HashMap<String, Integer>();
+    		map.put("productID", c.getProductId());
+    		map.put("itemAmount", c.getItemAmount());
+    		list.add(map);
+    		
+    	}
+    	
+    	return list;
+    }
+    
+    public double getTotalPrice(String cartID) {
+    	double d = 0;
+		for(Cart c: this.getCart(cartID)) {
+			d += c.calculateProductTotal();
+		}
+		
+		return d;
 	}
 
 	private void printSQLException(SQLException ex) {

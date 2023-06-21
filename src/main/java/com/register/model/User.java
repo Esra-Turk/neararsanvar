@@ -17,7 +17,7 @@ public class User implements Serializable{
     private String surname;
     private String email;
     private String password;
-    private List<Cart> cart;
+    private String cartID;
     
     public User(int userID, String name, String surname, String email, String password, String cartID) {
 		super();
@@ -26,26 +26,13 @@ public class User implements Serializable{
 		this.surname = surname;
 		this.email = email;
 		this.password = password;
-		this.cart = new CartDAO().getCart(cartID);
+		this.cartID = cartID;
 	}
     
     public User() {
     	super();
     }
-    
-    public List<HashMap> getCartDetail() {
-    	ArrayList<HashMap> list = new ArrayList<>();
-    	
-    	for(Cart c: cart) {
-    		HashMap<String, Integer> map = new HashMap<String, Integer>();
-    		map.put("productID", c.getProductId());
-    		map.put("itemAmount", c.getItemAmount());
-    		list.add(map);
-    		
-    	}
-    	
-    	return list;
-    }
+ 
     
     
 	public String getName() {
@@ -78,15 +65,9 @@ public class User implements Serializable{
 	public void setUserID(int userID) {
 		this.userID = userID;
 	}
-	public List<Cart> getCart() {
-		return cart;
-	}
-	public void setCart(List<Cart> cart) {
-		this.cart = cart;
-	}
 	
-	
+	public String getCartID() {
+		return this.cartID;
+	}
     
-    
-
 }

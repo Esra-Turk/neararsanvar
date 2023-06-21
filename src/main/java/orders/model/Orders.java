@@ -18,22 +18,6 @@ public class Orders {
 		this.orderStoreID = orderStoreID;
 		this.cartDetails = cartDetails;
 	}
-	public String parseDetails() {
-		ArrayList<String> list = new ArrayList<String>();
-		for(HashMap h: cartDetails) {
-			list.add(convertWithIteration(h));	
-		}
-		
-		return list.toString();
-	}
-	public String convertWithIteration(Map<Integer, ?> map) {
-	    StringBuilder mapAsString = new StringBuilder("{");
-	    for (Integer key : map.keySet()) {
-	        mapAsString.append(key + ":" + map.get(key) + ", ");
-	    }
-	    mapAsString.delete(mapAsString.length()-2, mapAsString.length()).append("}");
-	    return mapAsString.toString();
-	}
 	
 
 

@@ -10,6 +10,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.register.model.User;
 
 import cart.dao.CartDAO;
 import cart.model.Cart;
@@ -66,8 +69,10 @@ public class CartServlet extends HttpServlet {
 
 	private void openCart(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		String cartId = request.getParameter("id");
-		List<Cart> cartProducts = cartDAO.getCart(cartId);
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		
+		List<Cart> cartProducts = cartDAO.getCart(user.getCartID());
 		request.setAttribute("cartProducts", cartProducts);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("shopping-cart.jsp");
 		dispatcher.forward(request, response);
@@ -101,6 +106,18 @@ public class CartServlet extends HttpServlet {
 		cartDAO.deleteProductFromCart(cardID, productID);
 		response.sendRedirect("getCart");
 
+	}
+	
+	private void clearCart(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		
+		List<Cart> listCart = cartDAO.getCart(user.getCartID());
+		for(Cart c: listCart) {
+			cartDAO.deleteProductFromCart(c.getId(), c.getProductId());
+			
+		}
+		response.sendRedirect("/");
 	}
 
 }

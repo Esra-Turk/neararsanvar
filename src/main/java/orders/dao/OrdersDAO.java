@@ -1,4 +1,4 @@
-package order.dao;
+package orders.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,22 +6,25 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import store.model.Store;
+import cart.model.Cart;
+import orders.model.Orders;
 
-public class OrderDAO {
+public class OrdersDAO {
 	private String jdbcURL = "jdbc:mysql://localhost:3306/neararsanvar?useSSL=false";
 	private String jdbcUsername = "root";
 	private String jdbcPassword = "123456789";
 
-	private static final String INSERT_STORE_SQL = "INSERT INTO Store" + "  (storeName,username,password) VALUES " + " (?,?,?);";
-	private static final String SELECT_STORES = "select * from Store";
-	private static final String SELECT_STORE_BY_ID = "select * from store where storeID = ?";
-	private static final String DELETE_STORE = "delete from store where storeID = ?";
-	private static final String UPDATE_STORE = "update store set storeName = ?, username=?, password=? where storeID = ?";
+	private static final String INSERT_ORDERS_SQL = "INSERT INTO Orders" + "  (orderHolderID, orderStoreID,cartDetails) VALUES " + " (?,?,?);";
+	private static final String SELECT_ORDERS = "select * from Orders";
+	private static final String SELECT_ORDERS_BY_ID = "select * from orders where orderID = ?";
+	private static final String DELETE_ORDERS = "delete from orders where orderID = ?";
+	private static final String UPDATE_ORDERS = "update orders set orderHolderID=?, orderStoreID=?, cartDetails=? where orderID = ?";
 
-	public StoreDAO() {
+	public OrdersDAO() {
 		super();
 	}
 
@@ -39,13 +42,14 @@ public class OrderDAO {
 		}
 		return connection;
 	}
+	
 
-	public void insertStore(Store store) throws SQLException {
+	public void insertOrder(Orders orders) throws SQLException {
 		try (Connection connection = getConnection();
-				PreparedStatement statement = connection.prepareStatement(INSERT_STORE_SQL)) {
-			statement.setString(1, store.getStoreName());
-			statement.setString(2, store.getUsername());
-			statement.setString(3, store.getPassword());
+				PreparedStatement statement = connection.prepareStatement(INSERT_ORDERS_SQL)) {
+			statement.setInt(1, orders.getOrderHolderID());
+			statement.setInt(2, orders.getOrderID());
+			statement.setString(3, parseDetails(orders.getCartDetails()));
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
@@ -53,61 +57,93 @@ public class OrderDAO {
 		}
 	}
 
-	public List<Store> getStores() {
-		List<Store> stores = new ArrayList<Store>();
+	public List<Orders> getOrders() {
+		List<Orders> orders = new ArrayList<Orders>();
 		try (Connection connection = getConnection();
-				PreparedStatement statement = connection.prepareStatement(SELECT_STORES);) {
+				PreparedStatement statement = connection.prepareStatement(SELECT_ORDERS);) {
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
-				int storeID = rs.getInt("storeID");
-				String storeName = rs.getString("storeName");
-				String username = rs.getString("username");
-				String password = rs.getString("password");
-				stores.add(new Store(storeID,storeName,username,password));
+				int orderID = rs.getInt("orderID");
+				int orderHolderID = rs.getInt("orderHolderID");
+				int orderStoreID = rs.getInt("orderStoreID");
+				//String cartDetails = rs.getString("cartDetails");
+				List<HashMap> cartDetails = new ArrayList<HashMap>();
+				orders.add(new Orders(orderID,orderHolderID,orderStoreID,cartDetails));
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
 		}
-		return stores;
+		return orders;
 	}
 
-	public Store getStoreByID(int storeId) {
-		Store store = null;
+	public Orders getOrderByID(int orderId) {
+		Orders order = null;
 		try (Connection connection = getConnection();
-				PreparedStatement statement = connection.prepareStatement(SELECT_STORE_BY_ID);) {
-			statement.setInt(1, storeId);
+				PreparedStatement statement = connection.prepareStatement(SELECT_ORDERS_BY_ID);) {
+			statement.setInt(1, orderId);
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
-				int storeID = rs.getInt("storeID");
-				String storeName = rs.getString("storeName");
-				String username = rs.getString("username");
-				String password = rs.getString("password");
-				store = new Store(storeID,storeName,username,password);
+				int orderID = rs.getInt("orderID");
+				int orderHolderID = rs.getInt("orderHolderID");
+				int orderStoreID = rs.getInt("orderStoreID");
+				//String cartDetails = rs.getString("cartDetails");
+				List<HashMap> cartDetails = new ArrayList<HashMap>();
+				order = new Orders(orderID,orderHolderID,orderStoreID,cartDetails);
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
 		}
-		return store;
+		return order;
 	}
 
-	public void deleteStore(int storeId) throws SQLException {
+	public void deleteOrder(int orderId) throws SQLException {
 		try (Connection connection = getConnection();
-				PreparedStatement statement = connection.prepareStatement(DELETE_STORE);) {
-			statement.setInt(1, storeId);
+				PreparedStatement statement = connection.prepareStatement(DELETE_ORDERS);) {
+			statement.setInt(1, orderId);
 		}
 	}
-
-	public void updateStore(Store store) throws SQLException {
+	
+	public void updateOrder(Orders order) throws SQLException {
 		try (Connection connection = getConnection();
-				PreparedStatement statement = connection.prepareStatement(UPDATE_STORE);) {
-			statement.setString(1, store.getStoreName());
-			statement.setString(2, store.getUsername());
-			statement.setString(3, store.getPassword());
-			statement.setInt(4, store.getStoreID());
+				PreparedStatement statement = connection.prepareStatement(UPDATE_ORDERS);) {
+			statement.setInt(1, order.getOrderID());
+			statement.setInt(2, order.getOrderHolderID());
+			statement.setInt(3, order.getOrderStoreID());
+			statement.setString(4, "order.getCartDetails()");
 			
 		}
 	}
-
+	public String parseDetails(List<HashMap> cartDetails) {
+		ArrayList<String> list = new ArrayList<String>();
+		for(HashMap h: cartDetails) {
+			list.add(convertWithIteration(h));	
+		}
+		
+		return list.toString();
+	}
+	public String convertWithIteration(Map<Integer, ?> map) {
+	    StringBuilder mapAsString = new StringBuilder("{");
+	    for (Integer key : map.keySet()) {
+	        mapAsString.append(key + ":" + map.get(key) + ", ");
+	    }
+	    mapAsString.delete(mapAsString.length()-2, mapAsString.length()).append("}");
+	    return mapAsString.toString();
+	}
+	
+//    public List<HashMap> getCartDetail(List<Cart> cart) {
+//    	ArrayList<HashMap> list = new ArrayList<>();
+//    	
+//    	for(Cart c: cart) {
+//    		HashMap<String, Integer> map = new HashMap<String, Integer>();
+//    		map.put("productID", c.getProductId());
+//    		map.put("itemAmount", c.getItemAmount());
+//    		list.add(map);
+//    		
+//    	}
+//    	
+//    	return list;
+//    }
+	
 	private void printSQLException(SQLException ex) {
 		for (Throwable e : ex) {
 			if (e instanceof SQLException) {

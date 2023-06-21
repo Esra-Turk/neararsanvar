@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.register.model.User" %>
+<%@ page import = "cart.dao.CartDAO"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
   <head>
@@ -96,15 +99,17 @@
                     <th class="column-4">Miktar</th>
                     <th class="column-5">Toplam</th>
                   </tr>
-
+				
+				<c:forEach items="${cartProducts}" var="cartProduct">
+				
                   <tr class="table_row">
                     <td class="column-1">
                       <div class="how-itemcart1">
-                        <img src="../images/item-cart-04.jpg" alt="IMG" />
+                        <img src="../${cartProduct.getProduct().getProductPhoto()}" alt="IMG" />
                       </div>
                     </td>
-                    <td class="column-2">Fresh Strawberries</td>
-                    <td class="column-3">36.00 TRY</td>
+                    <td class="column-2"><c:out value="${cartProduct.getProduct().getProductName()}"/></td>
+                    <td class="column-3"><c:out value="${cartProduct.getProduct().getProductPrice()}"/> TRY</td>
                     <td class="column-4">
                       <div class="wrap-num-product flex-w m-l-auto m-r-0">
                         <div
@@ -117,7 +122,7 @@
                           class="mtext-104 cl3 txt-center num-product"
                           type="number"
                           name="num-product1"
-                          value="1"
+                          value="${cartProduct.getItemAmount()}"
                         />
 
                         <div
@@ -127,41 +132,9 @@
                         </div>
                       </div>
                     </td>
-                    <td class="column-5">36.00 TRY</td>
+                    <td class="column-5"><c:out value= "${cartProduct.calculateProductTotal()}"/> TRY</td>
                   </tr>
-
-                  <tr class="table_row">
-                    <td class="column-1">
-                      <div class="how-itemcart1">
-                        <img src="../images/item-cart-05.jpg" alt="IMG" />
-                      </div>
-                    </td>
-                    <td class="column-2">Lightweight Jacket</td>
-                    <td class="column-3">16.00 TRY</td>
-                    <td class="column-4">
-                      <div class="wrap-num-product flex-w m-l-auto m-r-0">
-                        <div
-                          class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m"
-                        >
-                          <i class="fs-16 zmdi zmdi-minus"></i>
-                        </div>
-
-                        <input
-                          class="mtext-104 cl3 txt-center num-product"
-                          type="number"
-                          name="num-product2"
-                          value="1"
-                        />
-
-                        <div
-                          class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m"
-                        >
-                          <i class="fs-16 zmdi zmdi-plus"></i>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="column-5">16.00 TRY</td>
-                  </tr>
+                  </c:forEach>
                 </table>
               </div>
 
@@ -197,15 +170,20 @@
                 </div>
 
                 <div class="size-209 p-t-1">
-                  <span class="mtext-110 cl2"> 79.65 TRY </span>
+                  <span class="mtext-110 cl2"> <c:out value="${totalPrice}"></c:out> TRY </span>
                 </div>
               </div>
 
-              <button
-                class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer"
+				<button
+				onclick="document.location = <%=request.getContextPath()%>/ClearCartServlet"
+                class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer "
               >
+              
                 Siparişi Tamamla
               </button>
+              
+              
+              
             </div>
           </div>
         </div>

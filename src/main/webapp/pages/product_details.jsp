@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
   <head>
@@ -92,11 +93,11 @@
         </a>
 
         <a href="products.jsp" class="stext-109 cl8 hov-cl1 trans-04">
-          Erkek
+          <c:out value="${product.getCategory().getCategoryName()}"/>
           <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
         </a>
 
-        <span class="stext-109 cl4"> Lightweight Jacket </span>
+        <span class="stext-109 cl4"> <c:out value="${product.getProductName()}"/> </span>
       </div>
     </div>
 
@@ -113,20 +114,13 @@
                 <div class="slick3 gallery-lb">
                   <div
                     class="item-slick3"
-                    data-thumb="../images/product-detail-01.jpg"
+                    data-thumb="../${product.getProductPhoto()}"
                   >
                     <div class="wrap-pic-w pos-relative">
                       <img
-                        src="../images/product-detail-01.jpg"
+                        src="../${product.getProductPhoto()}"
                         alt="IMG-PRODUCT"
                       />
-
-                      <a
-                        class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-                        href="../images/product-detail-01.jpg"
-                      >
-                        <i class="fa fa-expand"></i>
-                      </a>
                     </div>
                   </div>
                 </div>
@@ -137,10 +131,10 @@
           <div class="col-md-6 col-lg-5 p-b-30">
             <div class="p-r-50 p-t-5 p-lr-0-lg">
               <h4 class="mtext-105 cl2 js-name-detail p-b-14">
-                Lightweight Jacket
+                <c:out value="${product.getProductName()}"/> 
               </h4>
 
-              <span class="mtext-106 cl2"> 58.79 TRY </span>
+              <span class="mtext-106 cl2"> <c:out value="${product.getProductPrice()}"/>  TRY </span>
 
               <!--  -->
               <div class="p-t-33">
@@ -167,11 +161,14 @@
                       </div>
                     </div>
 
-                    <button
+                   <a href="<%=request.getContextPath()%>/pages/AddProductServlet?productID=${product.getId()}&itemAmount=1">
+                   
+                   
+                   <button
                       class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail"
                     >
                       Sepete Ekle
-                    </button>
+                    </button></a>
                   </div>
                 </div>
               </div>
@@ -183,7 +180,7 @@
       <div class="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
         <span class="stext-107 cl6 p-lr-25"> SKU: JAK-01 </span>
 
-        <span class="stext-107 cl6 p-lr-25"> Categories: Jacket, Men </span>
+        <span class="stext-107 cl6 p-lr-25"> Categories: <c:out value="${product.getCategory().getCategoryName()}"/> </span>
       </div>
     </section>
     
